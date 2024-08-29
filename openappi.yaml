@@ -1,0 +1,79 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: API Request Spec
+paths:
+  /toolselection/v1/:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBody'
+
+components:
+  schemas:
+    RequestBody:
+      type: object
+      required:
+        - context
+        - input
+      properties:
+        context:
+          type: object
+          properties:
+            file_path_list:
+              type: array
+              items:
+                type: string
+            history:
+              type: array
+              items:
+                type: object
+                properties:
+                  intent:
+                    type: string
+                  param:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  system_action:
+                    type: string
+                  search_id:
+                    type: string
+        input:
+          type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              enum: [text, touch]
+            data:
+              type: string
+    ResponseBody:
+      type: object
+      required:
+        - intent
+        - param
+        - system_action
+      properties:
+        intent:
+          type: string
+        param:
+          type: object
+          additionalProperties:
+            type: string
+        system_action:
+          type: string
+        search_id:
+          type: string
